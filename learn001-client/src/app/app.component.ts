@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 
 import { environment } from '../environments/environment';
@@ -9,8 +9,10 @@ import { environment } from '../environments/environment';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'app';
+  title = 'This is the title';
+  myHero = 'This is the My Hero';
 
+  
   constructor(private http: HttpClient) {
   }
 

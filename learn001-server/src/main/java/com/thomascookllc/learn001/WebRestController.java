@@ -11,6 +11,10 @@ public class WebRestController {
 	@CrossOrigin(origins = "http://localhost:4200")
 	@RequestMapping("/api/hi")
 	public String hi() {
-		return "{ \"name\":\"Jim Jeffries\", \"age\":\"11111111\"}";
+		
+		int g = 100;
+		g = 200;
+		
+		return "{ \"name\":\"Jim Jeffries\", \"age\":\"11111111SSSTTT\"}";
 	}
 }
