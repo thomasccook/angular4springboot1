@@ -6,29 +6,436 @@
   <button (click)="doRestCall()">Do REST call</button>
 </div>
 
-<H2>Template & Data Binding</H2>
+<H1>Template & Data Binding</H1>
 
-<H3>Showing component properties with interpolation</H3>
+<H2><a href="https://angular.io/guide/displaying-data">1) Displaying Data</a> </H2>
 
-	<span>Title : {{title}}</span> 
-	<br/>
-	<span>My favorite hero is: {{myHero}}</span>
+<H3>1_1) Showing component properties with interpolation</H3>
 
-<H3>Template inline or template file?</H3>
+	<span>Interpolation:</span><br/>
+	<span>Title : {{title_1_1}}</span> <br/>
+	<span>My favorite hero is: {{myHero_1_1}}</span>
+	
+	Notes:
+	<ul>
+		<li>For interpolation, the redisplay occurs after some kind of asynchronous event related to the view, such as a keystroke, a timer completion, or a response to an HTTP request</li>
+		<li>you don't call new to create an instance of the AppComponent class. Angular is creating an instance for you</li>
+		<li>Main.ts is loaded first? Then AppModule? AppComponent is bootstrapped and placed in index.html?</li>
+		<li></li>
+	</ul>
 
-<H3>Constructor or variable initialization?</H3>
+<H3>1_2) Template inline or template file?</H3>
 
-<H3>Showing an array property with *ngFor</H3>
+Small html can go 'inline' (with the backtick). Large html should go in their own 'template file'.
 
-<H3>Creating a class for the data</H3>
+<H3>1_3) Constructor or variable initialization?</H3>
 
-<H3>Using the Hero class</H3>
+	<span>Interpolation:</span><br/>
+	<span>Title : {{title_1_3}}</span> <br/>
+	<span>My favorite hero is: {{myHero_1_3}}</span>
 
-<H3>Conditional display with NgIf</H3>
+<H3>1_4) Showing an array property with *ngFor</H3>
+
+	<h4>{{title_1_4}}</h4>
+	  <h4>My favorite hero is: {{myHero_1_4}}</h4>
+	  <p>Heroes:</p>
+	  <ul>
+	    <li *ngFor="let hero of heroes_1_4">
+	      {{ hero }}
+	    </li>
+	  </ul>
+	  
+	  Notes:
+	  <ul>
+	  	<li>For these variables, no type is declared, it is implied when the value is set.</li>
+	  	<li>The *ngFor is the Angular "repeater" directive.</li>
+	  	<li>Don't forget the leading asterisk (*) in *ngFor. It is an essential part of the syntax. </li>
+	  </ul>
+
+<H3>1_5) Creating a class for the data</H3>
+
+	  <p>Heroes:</p>
+	  <ul>
+	    <li *ngFor="let hero of heroes_1_5">
+	      {{ hero.name }}
+	    </li>
+	  </ul>
+	
+	Notes: 
+	<ul>
+	<li>Angular isn't showing and hiding the message. It is adding and removing the paragraph element from the DOM.</li>
+	</ul>
+	
+
+<H3>1_6) Using the Hero class</H3>
+
+	Heroes is put in its own class.
+
+<H3>1_7) Conditional display with NgIf</H3>
+
+	<p *ngIf="heroes_1_5.length > 3">There are many heroes!</p>
 
 <H3>Summary</H3>
 
 
+<H2><a href="https://angular.io/guide/template-syntax">Template Syntax</a> </H2>
+
+
+<H3>2_1) HTML in templates</H3>
+
+	Notes:
+	<ul>
+		<li>Almost all HTML syntax is valid template syntax. The 'script' element is a notable exception; it is forbidden, eliminating the risk of script injection attacks</li>
+		<li> The 'html', 'body', and 'base' elements have no useful role. Pretty much everything else is fair game</li>
+	</ul>
+
+<H3>2_2) Interpolation</H3>
+
+	<p>The sum of 1 + 1 is {{1 + 100}}</p><br/>
+	<p>The sum of 1 + 1 + getVal() is  {{1 + 1 + getVal_2_2()}}</p>
+
+
+	Notes:
+	<ul>
+		<li>Angular evaluates all expressions in double curly braces, converts the expression results to strings, and links them with neighboring literal strings. Finally, it assigns this composite interpolated result to an element or directive property.</li>	
+	</ul>
+
+
+<H3>2_3) Template expressions</H3>
+
+	Notes:
+	<ul>
+		<li>You write these template expressions in a language that looks like JavaScript. Many JavaScript expressions are legal template expressions, but not all.</li>
+		<li>You can do no assignments (=, +=, -=), no 'new', no chaining expressions (; or ,), no (++ or --), no bitwise (| or &), no (|, ? or !). </li>
+		<li></li>		
+	</ul>
+	
+	<H4>2_3_1) Expression context</H4>
+		
+		<span [hidden]="isUnchanged_2_3_1">This span can be made visible and invisible.</span><p>
+		
+		Notes:
+		<ul>
+			<li>The expression context is typically the component instance.</li>
+			<li>An expression may also refer to properties of the template's context such as a 'template input variable' (let hero) or a 'template reference variable' (#heroInput).</li>
+			<li>The context for terms in an expression is a blend of the template variables, the directive's context object (if it has one), and the component's members. If you reference a name that belongs to more than one of these namespaces, the template variable name takes precedence, followed by a name in the directive's context, and, lastly, the component's member names.</li>		
+			<li>Template expressions cannot refer to anything in the global namespace ... They can't refer to window or document ... They can't call console.log or Math.max</li>
+		</ul>
+
+	<H4>2_3_2) Expression guidelines</H4>
+
+		Template expressions can make or break an application. Please follow these guidelines:
+		<p>
+		Notes:
+		<ul>
+			<li>No visible side effects - do not change any application state other than the value of the target property</li>
+			<li>Quick execution - Expressions should finish quickly, Angular executes template expressions after every change detection cycle</li>
+			<li>Simplicity - A property name or method call should be the norm</li>		
+			<li>Idempotence - always returns exactly the same thing until one of its dependent values changes</li>
+		</ul>
+
+<H3>2_4) Template statements</H3>
+
+	This is a Template Statement
+   <button (click)="deleteHero()">Delete hero</button>
+
+	<p>
+	Notes:
+	<ul>
+		<li>A template statement has a side effect</li>
+		<li>Responding to events is the other side of Angular's "unidirectional data flow". You're free to change anything, anywhere, during this turn of the event loop.</li>
+		<li>Like template expressions, template statements use a language that looks like JavaScript, however it supports '=' and ';' and ','</li>	
+		<li>Can't use : 'new', '++', '--', '+=', '-=', '|', '&' and 'Template Expression Operations' (pipe '|', safety '?.', non-null assertion '!', )</li>
+		<li></li>	
+	</ul>
+
+	<H4>2_4_1) Statement context</H4>
+
+	<p>
+	Notes:
+	<ul>
+		<li>Template context names take precedence over component context names.</li>
+		<li>Template statements cannot refer to anything in the global namespace. (e.g. 'window', 'document', 'consoloe.log', 'Math.max')</li>	
+	</ul>
+
+	<H4>2_4_1) Statement guidelines</H4>
+	<p>
+	Notes:
+	<ul>
+		<li>avoid writing complex template statements</li>
+		<li></li>
+		<li></li>		
+	</ul>
+	
+
+<H3>2_5) Binding syntax: An overview</H3>
+
+Angular provides many kinds of data binding.<p>
+Three categories : from the source-to-view, from view-to-source, and in the two-way sequence: view-to-source-to-view:<p>
+
+One-way from data source to view target: (Interpolation, Property, Attribute, Class, Style)<br/>
+&#123; &#123;expression&#125; &#125;<br/>
+[target]="expression"<br/>
+bind-target="expression"<br/>
+<p>
+
+One-way from view target to data source: (Event)<br/>
+(target)="statement"<br/>
+on-target="statement"<br/>
+<p>
+
+Two-way: (Two-way)<br/>
+[(target)]="expression"<br/>
+bindon-target="expression"<br/>
+<p>
+
+<p>
+Notes:
+<ul>
+	<li>Binding types other than interpolation have a target name to the left of the equal sign, either surrounded by punctuation ([], ()) or preceded by a prefix (bind-, on-, bindon-)</li>
+	<li>The target name is the name of a property. It may look like the name of an attribute but it never is. To appreciate the difference, you must develop a new way to think about template HTML.</li>
+	<li></li>		
+</ul>
+
+	<H4>2_5_1) Statement guidelines</H4>
+	<p>
+	Notes:
+	<ul>
+		<li>once you start data binding, you are no longer working with HTML attributes. You aren't setting attributes. You are setting the properties of DOM elements, components, and directives.</li>
+		<li></li>
+		<li></li>		
+	</ul>
+
+	<H4>2_5_2) HTML attribute vs. DOM property</H4>
+	
+	Attributes are defined by HTML. Properties are defined by the DOM.
+	<ul>
+		<li>A few HTML attributes have 1:1 mapping to properties. 'id' is one example.</li>
+		<li>Some HTML attributes don't have corresponding properties. colspan is one example</li>
+		<li>Some DOM properties don't have corresponding attributes. textContent is one example</li>	
+		<li>Many HTML attributes appear to map to properties ... but not in the way you might think!</li>	
+		<li>Attributes initialize DOM properties and then they are done. Property values can change; attribute values can't.</li>
+		<li>For example, for &lt;input&gt;, the HTML attribute value specifies the initial value; the DOM value property is the current value.</li>
+		<li>This fact bears repeating: Template binding works with properties and events, not attributes.</li>
+	</ul>
+
+	<H4>2_5_3) HTML attribute vs. DOM property</H4>
+
+	The target of a data binding is something in the DOM. Depending on the binding type, the target can be an (element | component | directive) property, an (element | component | directive) event, or (rarely) an attribute name. The following table summarizes:
+
+	<a href="https://angular.io/guide/template-syntax#binding-targets">Binding Targets</a>
+
+	<p>
+	Notes:
+	<ul>
+		<li>Property</li>
+		<li>Event</li>
+		<li>Two-way</li>	
+		<li>Attribute</li>	
+		<li>Class</li>	
+		<li>Style</li>		
+	</ul>
+
+<H3>2_6) Property binding ( [property] )</H3>
+
+	<p>
+	Notes:
+	<ul>
+		<li>The most common property binding sets an element property to a component property value. ... &lt;img [src]="heroImageUrl"&gt; </li>
+		<li>also &lt;button [disabled]="isUnchanged"&gt;Cancel is disabled&lt;/button&gt; </li>
+		<li>property of a directive ... &lt;div [ngClass]="classes"&gt;[ngClass] binding to the classes property&lt;/div&gt;</li>	
+		<li>Yet another is setting the model property of a custom component (a great way for parent and child components to communicate): &lt;hero-detail [hero]="currentHero"&gt;&lt;/hero-detail&gt;</li>	
+	</ul>
+
+	<H4>2_6_1) One-way in</H4>
+	<p>
+	Notes:
+	<ul>
+		<li>from a component's data property into a target element property.</li>
+		<li>You can't bind to a property of the target element to read it. You can only set it.</li>
+		<li>Similarly, you cannot use property binding to call a method on the target element.</li>		
+	</ul>			
+				
+				
+	<H4>2_6_2) Binding target</H4>
+	An element property between enclosing square brackets identifies the target property.<br/>
+	&lt;img [src]="heroImageUrl"&gt;<br/>
+	Some people prefer the bind- prefix alternative, known as the canonical form:<br/>
+	&lt;img bind-src="heroImageUrl"&gt;
+	
+	<p>
+	
+	Element properties may be the more common targets, but Angular looks first to see if the name is a property of a known directive, as it is in the following example:
+	<br/>
+	
+	&lt;div [ngClass]="classes"&gt;[ngClass] binding to the classes property&lt;/div&gt;
+	<br/>
+	Technically, Angular is matching the name to a directive input, one of the property names listed in the directive's inputs array or a property decorated with @Input(). Such inputs map to the directive's own properties.
+	
+	<p>
+	Notes:
+	<ul>
+		<li>The target name is always the name of a property, even when it appears to be the name of something else.</li>	
+	</ul>
+	
+	<H4>2_6_3) Avoid side effects</H4>
+	
+	As mentioned previously, evaluation of a template expression should have no visible side effects.
+	<br/>
+	
+	<H4>2_6_4) Return the proper type</H4>
+	
+	The function currentHero should return a hero.
+	
+	&lt;hero-detail [hero]="currentHero"&gt;&lt;/hero-detail&gt;
+
+
+	<H4>2_6_5) Remember the brackets</H4>
+	<p>
+	Notes:
+	<ul>
+		<li>The brackets tell Angular to evaluate the template expression.</li>
+		<li>If you omit the brackets, Angular treats the string as a constant and initializes the target property with that string. It does not evaluate the string!</li>
+		<li></li>		
+	</ul>
+	
+	<H4>2_6_6) One-time string initialization</H4>
+	You should omit the brackets when all of the following are true:
+	<ul>
+		<li>The target property accepts a string value.</li>
+		<li>The string is a fixed value that you can bake into the template.</li>
+		<li>This initial value never changes.</li>		
+	</ul>
+	
+	The following example initializes the prefix property of the HeroDetailComponent to a fixed string, not a template expression. Angular sets it and forgets about it.
+	<br/>	
+	&lt;hero-detail prefix="You are my" [hero]="currentHero"&gt;&lt;/hero-detail&gt;
+	
+	<H4>2_6_7) Property binding or interpolation?</H4>
+	The following binding pairs do the same thing:<br/>
+	
+	&lt;p&gt;&lt;img src="&#123; &#123;heroImageUrl&#125; &#125;"&gt; is the &lt;i&gt;interpolated&lt;/i&gt; image.&lt;/p&gt;<br/>
+	&lt;p&gt;&lt;img [src]="heroImageUrl"&gt; is the &lt;i&gt;property bound&lt;/i&gt; image.&lt;/p&gt;
+	<p>
+	
+	&lt;p&gt;&lt;span&gt;"&#123; &#123;title&#125; &#125;" is the &lt;i&gt;interpolated&lt;/i&gt; title.&lt;/span&gt;&lt;/p&gt;<br/>
+	&lt;p&gt;"&lt;span [innerHTML]="title"&gt;&lt;/span&gt;" is the &lt;i&gt;property bound&lt;/i&gt; title.&lt;/p&gt;
+
+	<p>
+	Notes:
+	<ul>
+		<li>Interpolation is a convenient alternative to property binding in many cases.</li>
+		<li>When rendering data values as strings, there is no technical reason to prefer one form to the other.</li>
+		<li>You lean toward readability, which tends to favor interpolation.</li>		
+		<li>When setting an element property to a non-string data value, you must use property binding.</li>
+	</ul>
+
+	<H4>2_6_8) Content security</H4>
+	
+	<p>
+	Notes:
+	<ul>
+		<li>Angular data binding is on alert for dangerous HTML.</li>
+		<li>It sanitizes the values before displaying them</li>
+		<li> It will not allow HTML with script tags to leak into the browser, neither with interpolation nor property binding.</li>		
+	</ul>
+	
+
+<H3>2_7) Attribute, class, and style bindings</H3>
+
+	<H4>2_7_1) Attribute binding</H4>
+	
+	colspan is not in the DOM, so you must set an attribute
+	<p>
+	&lt;tr&gt;&lt;td [attr.colspan]="1 + 1"&gt;One-Two&lt;/td&gt;&lt;/tr&gt;
+	<p>
+	
+	Or for ARIA
+	<p>
+	&lt;button [attr.aria-label]="actionName"&gt;&#123; &#123;actionName&#125; &#125; with Aria&lt;/button&gt;
+	
+	<p>
+	Notes:
+	<ul>
+		<li>This is the only exception to the rule that a binding sets a target property. This is the only binding that creates and sets an attribute.</li>	
+	</ul>
+	
+	<H4>2_7_2) Class binding</H4>
+	You can add and remove CSS class names from an element's class attribute with a class binding.
+	<p>
+	
+	&lt;!-- toggle the "special" class on/off with a property --&gt; <br/>
+	&lt;div [class.special]="isSpecial"&gt;The class binding is special&lt;/div&gt;<br/>
+	<p>
+	&lt;!-- binding to `class.special` trumps the class attribute --&gt;<br/>
+	&lt;div class="special" [class.special]="!isSpecial"&gt;This one is not so special&lt;/div&gt;<br/>
+	
+	<p>
+	
+	You can replace that with a binding to a string of the desired class names; this is an all-or-nothing, replacement binding.
+	<p>
+	&lt;div class="bad curly special" [class]="badCurly"&gt;Bad curly&lt;/div&gt;
+	
+	<p>
+	Notes:
+	<ul>
+		<li>While this is a fine way to toggle a single class name, the NgClass directive is usually preferred when managing multiple class names at the same time.</li>		
+	</ul>
+	
+	<H4>2_7_3) Style binding</H4>
+	<p>
+	&lt;button [style.color]="isSpecial ? 'red': 'green'"&gt;Red&lt;/button&gt;<br>
+	&lt;button [style.background-color]="canSave ? 'cyan': 'grey'" &gt;Save&lt;/button&gt;<br>
+
+	<p>
+	
+	Some style binding styles have a unit extension. The following example conditionally sets the font size in “em” and “%” units .
+	<p>
+	&lt;button [style.font-size.em]="isSpecial ? 3 : 1" &gt;Big&lt;/button&gt;<br>
+	&lt;button [style.font-size.%]="!isSpecial ? 150 : 50" &gt;Small&lt;/button&gt;<br>
+
+	<p>
+	Notes:
+	<ul>
+		<li>While this is a fine way to set a single style, the NgStyle directive is generally preferred when setting several inline styles at the same time.</li>
+		<li>Note that a style property name can be written in either dash-case, as shown above, or camelCase, such as fontSize.</li>
+		<li></li>		
+	</ul>
+
+<H3>2_8) Event binding ( (event) )</H3>
+
+	from an element to a component.
+	<p>
+	Event binding syntax consists of a target event name within parentheses on the left of an equal sign, and a quoted template statement on the right.
+	<p>
+	&lt;button (click)="onSave()"&gt;Save&lt;/button&gt;
+	<br>
+
+	<H4>2_8_1) Target event</H4>
+	
+	<H4>2_8_2) $event and event handling statements</H4>
+	
+	<H4>2_8_3) Custom events with EventEmitter</H4>
+	
+	<H4>2_8_4) Template statements have side effects</H4>
+	
+
+<H3>2_9) Two-way binding ( [(...)] )</H3>
+<H3>2_10) Built-in directives</H3>
+<H3>2_11) Built-in attribute directives</H3>
+<H3>2_12) Built-in structural directives</H3>
+<H3>2_13) Template reference variables ( #var )</H3>
+<H3>2_14) Input and output properties ( @Input and @Output )</H3>
+<H3>2_15) Template expression operators</H3>
+<H3>2_16) Summary</H3>
+
+<p>
+Notes:
+<ul>
+	<li></li>
+	<li></li>
+	<li></li>		
+</ul>
 
 
 
